@@ -25,13 +25,13 @@ export default class testProject extends Component {
           ref={navigatorRef => {
             navigationProvider.setContainer(navigatorRef);
           }}
-          onNavigationStateChange={(prevState, currentState) => {
+          onNavigationStateChange={(prevState, currentState, action) => {
             const currentScreen = getCurrentRouteName(currentState);
             const prevScreen = getCurrentRouteName(prevState);
 
             if (prevScreen !== currentScreen) {
               const trackScreenView = controller.getSignal('App.trackScreenView');
-              trackScreenView({ screen: currentScreen });
+              trackScreenView({ screen: currentScreen, action: action });
             }
           }}
         />

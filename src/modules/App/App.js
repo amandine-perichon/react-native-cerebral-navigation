@@ -4,6 +4,7 @@ import { set } from 'cerebral/operators';
 export default {
   state: {
     screen: 'Home',
+    action: {},
     text: 'Kangaroo'
   },
   signals: {
@@ -15,7 +16,8 @@ export default {
       }
     ],
     trackScreenView: [
-      set(state`App.screen`, props`screen`)
+      set(state`App.screen`, props`screen`),
+      set(state`App.action`, props`action`)
     ]
   }
 };
