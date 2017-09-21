@@ -1,5 +1,9 @@
+import { state, props } from 'cerebral/tags';
+import { set } from 'cerebral/operators';
+
 export default {
   state: {
+    screen: 'Home',
     text: 'Kangaroo'
   },
   signals: {
@@ -9,6 +13,9 @@ export default {
         console.log(navigation);
         navigation.navigate(props.screen);
       }
+    ],
+    trackScreenView: [
+      set(state`App.screen`, props`screen`)
     ]
   }
 };
