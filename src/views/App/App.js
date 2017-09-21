@@ -1,5 +1,5 @@
 import { connect } from 'cerebral/react';
-import { state } from 'cerebral/tags';
+import { state, signal } from 'cerebral/tags';
 
 import React, { Component } from 'react';
 import {
@@ -13,12 +13,11 @@ import styles from './styles';
 import SomeOtherScreen from '../SomeOtherScreen/SomeOtherScreen';
 
 const App = connect({
-  text: state`App.text`
+  text: state`App.text`,
+  buttonClicked: signal`App.buttonClicked`
 },
   class AppScreen extends Component {
     render () {
-      const { navigate } = this.props.navigation;
-      console.log(this.props.navigation);
       return (
         <View style={styles.container}>
           <Text style={styles.welcome}>
@@ -29,7 +28,7 @@ const App = connect({
             Cmd+D or shake for dev menu
           </Text>
           <Button
-            onPress={() => navigate('Other')}
+            onPress={() => this.props.buttonClicked({ screen: 'Other' })}
             title='Go to other screen'
           />
         </View>
@@ -38,7 +37,9 @@ const App = connect({
   }
 );
 
-export default StackNavigator({
+const Navigator = StackNavigator({
   Home: { screen: App },
   Other: { screen: SomeOtherScreen }
 });
+
+export default Navigator;

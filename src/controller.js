@@ -1,12 +1,19 @@
-import { Controller } from 'cerebral';
+import { Controller, provide } from 'cerebral';
 import Devtools from 'cerebral/devtools';
 
+// Providers
+import navigationProvider from './navigationProvider';
+console.log(navigationProvider)
+// Modules
 import App from './modules/App/App';
 
 const controller = Controller({
   modules: {
     App
   },
+  providers: [
+    provide('navigation', navigationProvider)
+  ],
   devtools: Devtools({
       // Connect to Electron debugger (external debugger). It will fall back to
       // chrome extension if unable to connect
