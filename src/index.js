@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Container } from 'cerebral/react';
 import App from './views/App/App';
 
