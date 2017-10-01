@@ -1,26 +1,40 @@
 import { connect } from 'cerebral/react';
 import { state } from 'cerebral/tags';
-
-import React, { Component } from 'react';
+import FirstScreen from '../FirstScreen/FirstScreen';
+import SomeOtherScreen from '../SomeOtherScreen/SomeOtherScreen';
+import controller from '../../controller';
+import React from 'react';
 import {
+  Linking,
   Text,
   View
 } from 'react-native';
-
-import styles from './styles';
-
+console.log(controller)
 export default connect({
-  text: state`App.text`
+  currentPage: state`App.currentPage`
 },
-  props => (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>
-        Welcome to React Native! Also {props.text}
-          </Text>
-      <Text style={styles.instructions}>
-        Press Cmd+R to reload,{'\n'}
-        Cmd+D or shake for dev menu
-          </Text>
-    </View>
-  )
+  React.createClass({
+    componentDidMount () {
+      Linking.addEventListener('url', this._handleOpenURL);
+    },
+    componentWillUnmount () {
+      Linking.removeEventListener('url', this._handleOpenURL);
+    },
+    _handleOpenURL (event) {
+      console.log(event.url);
+      console.log(event.url.replace(/.*?:\/\//g, ''));
+      controller.module.modules.router.goTo(event.url.replace(/.*?:\/\//g, ''));
+    },
+    render () {
+      if (this.props.currentPage === 'firstScreen') {
+        return <FirstScreen />;
+      }
+      if (this.props.currentPage === 'someOtherScreen') {
+        return <SomeOtherScreen />;
+      }
+      return <View>
+        <Text>Oops there was a problem!</Text>
+      </View>
+    }
+  })
 );
