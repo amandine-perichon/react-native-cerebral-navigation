@@ -5,11 +5,18 @@ import SomeOtherScreen from '../SomeOtherScreen/SomeOtherScreen';
 import controller from '../../controller';
 import React from 'react';
 import {
+  Platform,
+  UIManager,
+  LayoutAnimation,
   Linking,
   Text,
   View
 } from 'react-native';
-console.log(controller)
+
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 export default connect({
   currentPage: state`App.currentPage`
 },
@@ -21,11 +28,22 @@ export default connect({
       Linking.removeEventListener('url', this._handleOpenURL);
     },
     _handleOpenURL (event) {
-      console.log(event.url);
-      console.log(event.url.replace(/.*?:\/\//g, ''));
       controller.module.modules.router.goTo(event.url.replace(/.*?:\/\//g, ''));
     },
     render () {
+      const CustomLayoutLinear = {
+        duration: 100,
+        create: {
+          type: LayoutAnimation.Types.linear,
+          property: LayoutAnimation.Properties.opacity
+        },
+        update: {
+          type: LayoutAnimation.Types.curveEaseInEaseOut
+        }
+      };
+
+      LayoutAnimation.configureNext(CustomLayoutLinear);
+
       if (this.props.currentPage === 'firstScreen') {
         return <FirstScreen />;
       }
