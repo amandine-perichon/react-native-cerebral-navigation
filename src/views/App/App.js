@@ -1,7 +1,5 @@
 import { connect } from 'cerebral/react';
 import { state, signal } from 'cerebral/tags';
-import FirstScreen from '../FirstScreen/FirstScreen';
-import SomeOtherScreen from '../SomeOtherScreen/SomeOtherScreen';
 import controller from '../../controller';
 import React from 'react';
 import {
@@ -13,11 +11,16 @@ import {
   View
 } from 'react-native';
 
+import FirstScreen from '../FirstScreen/FirstScreen';
+import SomeOtherScreen from '../SomeOtherScreen/SomeOtherScreen';
+import Auth from '../Auth/Auth';
+
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 export default connect({
+  loggedIn: state`App.currentUser.id`,
   currentPage: state`App.currentPage`,
   firstScreenMounted: signal`App.firstScreenMounted`
 },
@@ -45,6 +48,10 @@ export default connect({
       };
 
       LayoutAnimation.configureNext(CustomLayoutLinear);
+
+      if (!this.props.loggedIn) {
+        return <Auth />;
+      }
 
       if (this.props.currentPage === 'firstScreen') {
         return <FirstScreen />;

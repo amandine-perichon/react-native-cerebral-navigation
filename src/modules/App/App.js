@@ -8,9 +8,7 @@ export default {
     currentPage: 'firstScreen',
     text: 'Kangaroo',
     data: {},
-    currentUser: {
-      id: '8fbe6d71-1c85-4985-87a6-3cb2483c782c'
-    }
+    currentUser: {}
   },
   signals: {
     firstScreenRouted: [
