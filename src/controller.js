@@ -1,11 +1,10 @@
 import { Controller } from 'cerebral';
 import Router from '@cerebral/router';
 import Devtools from 'cerebral/devtools';
+import HttpProvider from '@cerebral/http'
 
 import App from './modules/App/App';
 const controller = Controller({
-  state: {},
-  signals: {},
   modules: {
     App,
     router: Router({
@@ -21,6 +20,17 @@ const controller = Controller({
       }]
     })
   },
+  providers: [
+    HttpProvider({
+      cors: true,
+      baseUrl: '',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        Authorization: ''
+      }
+    })
+  ],
   devtools: Devtools({
     // Connect to Electron debugger (external debugger). It will fall back to
     // chrome extension if unable to connect

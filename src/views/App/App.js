@@ -1,5 +1,5 @@
 import { connect } from 'cerebral/react';
-import { state } from 'cerebral/tags';
+import { state, signal } from 'cerebral/tags';
 import FirstScreen from '../FirstScreen/FirstScreen';
 import SomeOtherScreen from '../SomeOtherScreen/SomeOtherScreen';
 import controller from '../../controller';
@@ -18,10 +18,12 @@ if (Platform.OS === 'android') {
 }
 
 export default connect({
-  currentPage: state`App.currentPage`
+  currentPage: state`App.currentPage`,
+  firstScreenMounted: signal`App.firstScreenMounted`
 },
   React.createClass({
     componentDidMount () {
+      this.props.firstScreenMounted();
       Linking.addEventListener('url', this._handleOpenURL);
     },
     componentWillUnmount () {
