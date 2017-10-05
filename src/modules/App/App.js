@@ -4,6 +4,7 @@ import { httpGet } from '@cerebral/http/operators';
 import { USER_ASSIGNED } from '../../constants/api';
 import login from './signals/login';
 import logout from './signals/logout';
+import restoreSession from './signals/restoreSession';
 
 export default {
   state: {
@@ -16,6 +17,7 @@ export default {
   signals: {
     login,
     logout,
+    restoreSession,
     appRouted: [
       set(state`App.currentPage`, 'login')
     ],

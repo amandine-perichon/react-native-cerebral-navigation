@@ -1,27 +1,13 @@
-import { set } from 'cerebral/operators';
-import { state, props, string } from 'cerebral/tags';
-import {
-  Config,
-  CognitoIdentityCredentials
-} from 'aws-sdk/dist/aws-sdk-react-native';
+import { AsyncStorage } from 'react-native';
+
+import { userPool } from '../../../constants/cognito';
 
 import {
   AuthenticationDetails,
-  CognitoUser,
-  CognitoUserPool
+  CognitoUser
 } from 'react-native-aws-cognito-js';
 
 import { USER, BACKEND } from '../../../constants/api';
-
-const appConfig = {
-  region: '',
-  'identityPoolId': '',
-  'userPoolId': '',
-  'clientId': ''
-};
-
-// setting config
-Config.region = appConfig.region;
 
 const login = ({ state, props, path, http }) => {
   state.set('App.loading', true);
@@ -31,11 +17,6 @@ const login = ({ state, props, path, http }) => {
     Password: password
   };
   const authenticationDetails = new AuthenticationDetails(authenticationData);
-  const poolData = {
-    UserPoolId: appConfig.userPoolId,
-    ClientId: appConfig.clientId
-  };
-  const userPool = new CognitoUserPool(poolData);
   const userData = {
     Username: username,
     Pool: userPool
@@ -43,15 +24,13 @@ const login = ({ state, props, path, http }) => {
   const cognitoUser = new CognitoUser(userData);
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: (result) => {
-      console.log('access token + ' + result.getAccessToken().getJwtToken());
-      Config.credentials = new CognitoIdentityCredentials({
-        IdentityPoolId: appConfig.IdentityPoolId,
-        Logins: {
-          [`cognito-idp.${appConfig.region}.amazonaws.com/${appConfig.UserPoolId}`]: result.getIdToken().getJwtToken()
-        }
-      });
-      console.log(Config.credentials);
+      const token = result.getAccessToken().getJwtToken();
+      console.log(token);
       console.log(cognitoUser.username);
+      AsyncStorage.multiSet([
+        ['token', token],
+        ['username', cognitoUser.username]
+      ]);
 
       // Use user lookup to get user information
       http.get(USER + 'lookup/' + cognitoUser.username)
@@ -75,7 +54,7 @@ const login = ({ state, props, path, http }) => {
       state.set('App.loading', false);
     }
   });
-}
+};
 
 export default [
   login
