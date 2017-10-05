@@ -9,10 +9,12 @@
 	"dependencies": {
 		"@cerebral/http": "^3.2.0",
 		"@cerebral/router": "^2.2.0",
+		"aws-sdk": "^2.127.0",
 		"cerebral": "^2.0.0-b-alpha.c00bd8f2",
 		"ramda": "^0.24.1",
 		"react": "16.0.0-alpha.12",
-		"react-native": "0.48.3"
+		"react-native": "0.48.3",
+		"react-native-aws-cognito-js": "0.0.7"
 	},
 	"devDependencies": {
 		"babel-jest": "21.0.2",

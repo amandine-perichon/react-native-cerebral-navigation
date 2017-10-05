@@ -7,15 +7,18 @@ import {
   Text,
   View,
   Button,
-  TextInput
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
 
 import styles from './styles';
 
 export default connect({
   text: state`App.text`,
+  loading: state`App.loading`,
   data: state`App.data`,
-  someOtherScreenRouted: signal`App.someOtherScreenRouted`
+  someOtherScreenRouted: signal`App.someOtherScreenRouted`,
+  login: signal`App.login`
 },
   React.createClass({
     getInitialState () {
@@ -24,11 +27,10 @@ export default connect({
         password: null
       };
     },
-    handleClick () {
-      console.log('login logic goes here');
-    },
     render () {
-      return (
+      return this.props.loading
+        ? <View style={{ padding: 20, paddingTop: 160 }}><ActivityIndicator /></View>
+      : (
         <View style={{ padding: 20, paddingTop: 80 }}>
           <Text style={{ fontSize: 27 }}>{this.state.page}</Text>
           <TextInput
@@ -46,7 +48,12 @@ export default connect({
             secureTextEntry
             value={this.state.password}
             onChangeText={(text) => this.setState({ password: text })} />
-          <Button onPress={(e) => this.handleClick(e)} title='Log in' />
+          <Button
+            onPress={(e) => {
+              this.props.login({ username: this.state.username, password: this.state.password })
+            }}
+            title='Log in'
+          />
         </View>
       );
     }

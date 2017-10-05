@@ -10,7 +10,7 @@ const controller = Controller({
     router: Router({
       routes: [{
         path: '/',
-        signal: 'App.firstScreenRouted'
+        signal: 'App.appRouted'
       }, {
         path: '/someOtherScreen',
         signal: 'App.someOtherScreenRouted'

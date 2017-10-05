@@ -26,7 +26,6 @@ export default connect({
 },
   React.createClass({
     componentDidMount () {
-      this.props.firstScreenMounted();
       Linking.addEventListener('url', this._handleOpenURL);
     },
     componentWillUnmount () {
@@ -49,7 +48,7 @@ export default connect({
 
       LayoutAnimation.configureNext(CustomLayoutLinear);
 
-      if (!this.props.loggedIn) {
+      if (!this.props.loggedIn || this.props.currentPage === 'login') {
         return <Auth />;
       }
 
