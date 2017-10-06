@@ -4,12 +4,7 @@ import {
   CognitoUserPool
 } from 'react-native-aws-cognito-js';
 
-const appConfig = {
-  'region': 'us-east-1',
-  'identityPoolId': 'us-west-2:443ecdc1-8d03-40a6-9f6e-c266bbc10f37',
-  'userPoolId': 'us-west-2_gIdVzRHXF',
-  'clientId': '531d74n8onl63nuuo0v0a8jvo5'
-};
+const appConfig = {};
 
 // setting config
 Config.region = appConfig.region;

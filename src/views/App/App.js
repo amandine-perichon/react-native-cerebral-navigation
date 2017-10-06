@@ -3,7 +3,6 @@ import { state, signal } from 'cerebral/tags';
 import controller from '../../controller';
 import React from 'react';
 import {
-  AsyncStorage,
   Platform,
   UIManager,
   LayoutAnimation,
@@ -28,9 +27,7 @@ export default connect({
 },
   React.createClass({
     componentDidMount () {
-      AsyncStorage.multiGet(['username']).then(data => {
-        this.props.restoreSession({ username: data[0][1] });
-      });
+      this.props.restoreSession();
       Linking.addEventListener('url', this._handleOpenURL);
     },
     componentWillUnmount () {
